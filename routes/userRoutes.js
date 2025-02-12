@@ -28,87 +28,87 @@ const requireToken = passport.authenticate('bearer', { session: false })
 
 const router = express.Router()
 // SIGN UP
-// router.post('/register', async (req, res, next) => {
-//     const { credentials } = req.body
-//     const { email, password, password_confirmation } = credentials
+router.post('/register', async (req, res, next) => {
+    const { credentials } = req.body
+    const { email, password, password_confirmation } = credentials
   
-//     try {
-//       if (!email || !password || password !== password_confirmation) {
-//         res.json({msg: "registration failed"})
-//       }
+    try {
+      if (!email || !password || password !== password_confirmation) {
+        res.json({msg: "registration failed"})
+      }
   
-//       const hash = await bcrypt.hash(password, bcryptSaltRounds)
+      const hash = await bcrypt.hash(password, bcryptSaltRounds)
 
-//       const userObj = {
-//         email: email,
-//         hashedPassword: hash
-//       }
+      const userObj = {
+        email: email,
+        hashedPassword: hash
+      }
   
-//       let user = await User.create(userObj)
+      let user = await User.create(userObj)
     
-//       const token = crypto.randomBytes(16).toString('hex')
-//       user.token = token 
-//       await user.save()
+      const token = crypto.randomBytes(16).toString('hex')
+      user.token = token 
+      await user.save()
   
-//       send email 
-//       let transporter = nodemailer.createTransport({
-//         service: 'Gmail',
-//         auth: {
-//           user: process.env.EMAIL_ADDRESS, // your Gmail address
-//           pass: process.env.EMAIL_PASS,    // your Gmail password
-//         },
-//       });
+      // send email 
+      // let transporter = nodemailer.createTransport({
+      //   service: 'Gmail',
+      //   auth: {
+      //     user: process.env.EMAIL_ADDRESS, // your Gmail address
+      //     pass: process.env.EMAIL_PASS,    // your Gmail password
+      //   },
+      // });
       
-//       let mailOptions = {
-//         from: process.env.EMAIL_ADDRESS,
-//         to: email,
-//         subject: 'Welcome to PIX Marketplace',
-//         text: `Hey there, your account has been created`
-//       };
+      // let mailOptions = {
+      //   from: process.env.EMAIL_ADDRESS,
+      //   to: email,
+      //   subject: 'Welcome to PIX Marketplace',
+      //   text: `Hey there, your account has been created`
+      // };
   
-//       transporter.sendMail(mailOptions, function (error, info) {
-//         if (error) {
-//           console.log(error);
-//         } else {
-//           console.log('Email sent: ' + info.response);
-//         }
-//       });
+      // transporter.sendMail(mailOptions, function (error, info) {
+      //   if (error) {
+      //     console.log(error);
+      //   } else {
+      //     console.log('Email sent: ' + info.response);
+      //   }
+      // });
   
-//       res.json({ user: user })
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   });
+      res.json({ user: user })
+    } catch (err) {
+      console.log(err)
+    }
+  });
 
-// router.post('/register', async (req, res, next) => {
-//   const { credentials } = req.body;
-//   const { email, password, password_confirmation } = credentials;
+router.post('/register', async (req, res, next) => {
+  const { credentials } = req.body;
+  const { email, password, password_confirmation } = credentials;
 
-//   try {
-//     if (!email || !password || password !== password_confirmation) {
-//       return res.status(400).json({ msg: "Registration failed: Missing or mismatched credentials." });
-//     }
+  try {
+    if (!email || !password || password !== password_confirmation) {
+      return res.status(400).json({ msg: "Registration failed: Missing or mismatched credentials." });
+    }
 
-//     const hash = await bcrypt.hash(password, bcryptSaltRounds);
-//     const userObj = {
-//       email: email,
-//       hashedPassword: hash
-//     };
+    const hash = await bcrypt.hash(password, bcryptSaltRounds);
+    const userObj = {
+      email: email,
+      hashedPassword: hash
+    };
 
-//     let user = await User.create(userObj);
+    let user = await User.create(userObj);
 
-//     const token = crypto.randomBytes(16).toString('hex');
-//     user.token = token;
-//     await user.save();
+    const token = crypto.randomBytes(16).toString('hex');
+    user.token = token;
+    await user.save();
 
-//     // Send email - commented out for debugging
+    // Send email - commented out for debugging
 
-//     return res.status(201).json({ user: user });
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).json({ msg: "Internal server error" });
-//   }
-// });
+    return res.status(201).json({ user: user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: "Internal server error" });
+  }
+});
     
   
   // SIGN IN

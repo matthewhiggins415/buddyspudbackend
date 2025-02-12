@@ -7,8 +7,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 require('dotenv').config();
-
 dotenv.config();
+const userRoutes = require('./routes/userRoutes.js');
+const orderRoutes = require('./routes/orderRoutes.js');
+const auth = require('./lib/auth.js');
 
 const app = express();
 
@@ -29,13 +31,14 @@ connectDB();
 // app.use(cors({
 //   origin: true
 // }))
-  
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routes
-// app.use(auth);
-// app.use(jobRoutes);
+app.use(auth);
+app.use(orderRoutes);
+app.use(userRoutes);
 
 const port = process.env.PORT || 5000;
 

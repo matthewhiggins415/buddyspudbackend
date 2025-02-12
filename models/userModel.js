@@ -9,7 +9,7 @@ const userSchema = new Schema({
   },
   isAdmin: {
     type: Boolean, 
-    default: false
+    default: true
   }, 
   hashedPassword: {
     type: String, 
