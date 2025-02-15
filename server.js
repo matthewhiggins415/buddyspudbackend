@@ -10,6 +10,7 @@ require('dotenv').config();
 dotenv.config();
 const userRoutes = require('./routes/userRoutes.js');
 const orderRoutes = require('./routes/orderRoutes.js');
+const stripeRoutes = require('./routes/stripeRoutes.js');
 const auth = require('./lib/auth.js');
 
 const app = express();
@@ -32,6 +33,8 @@ connectDB();
 //   origin: true
 // }))
 
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -43,6 +46,7 @@ app.get("/", (req, res) => {
 app.use(auth);
 app.use(orderRoutes);
 app.use(userRoutes);
+app.use(stripeRoutes);
 
 const port = process.env.PORT || 5000;
 
