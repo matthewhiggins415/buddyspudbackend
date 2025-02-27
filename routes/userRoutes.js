@@ -27,28 +27,29 @@ const User = require('../models/userModel')
 const requireToken = passport.authenticate('bearer', { session: false })
 
 const router = express.Router()
-// SIGN UP
-router.post('/register', async (req, res, next) => {
-    const { credentials } = req.body
-    const { email, password, password_confirmation } = credentials
-  
-    try {
-      if (!email || !password || password !== password_confirmation) {
-        res.json({msg: "registration failed"})
-      }
-  
-      const hash = await bcrypt.hash(password, bcryptSaltRounds)
 
-      const userObj = {
-        email: email,
-        hashedPassword: hash
-      }
+// SIGN UP
+// router.post('/register', async (req, res, next) => {
+//     const { credentials } = req.body
+//     const { email, password, password_confirmation } = credentials
   
-      let user = await User.create(userObj)
+//     try {
+//       if (!email || !password || password !== password_confirmation) {
+//         res.json({msg: "registration failed"})
+//       }
+  
+//       const hash = await bcrypt.hash(password, bcryptSaltRounds)
+
+//       const userObj = {
+//         email: email,
+//         hashedPassword: hash
+//       }
+  
+//       let user = await User.create(userObj)
     
-      const token = crypto.randomBytes(16).toString('hex')
-      user.token = token 
-      await user.save()
+//       const token = crypto.randomBytes(16).toString('hex')
+//       user.token = token 
+//       await user.save()
   
       // send email 
       // let transporter = nodemailer.createTransport({
@@ -74,68 +75,67 @@ router.post('/register', async (req, res, next) => {
       //   }
       // });
   
-      res.json({ user: user })
-    } catch (err) {
-      console.log(err)
-    }
-  });
+  //     res.json({ user: user })
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // });
 
-router.post('/register', async (req, res, next) => {
-  const { credentials } = req.body;
-  const { email, password, password_confirmation } = credentials;
+// router.post('/register', async (req, res, next) => {
+//   const { credentials } = req.body;
+//   const { email, password, password_confirmation } = credentials;
 
-  try {
-    if (!email || !password || password !== password_confirmation) {
-      return res.status(400).json({ msg: "Registration failed: Missing or mismatched credentials." });
-    }
+//   try {
+//     if (!email || !password || password !== password_confirmation) {
+//       return res.status(400).json({ msg: "Registration failed: Missing or mismatched credentials." });
+//     }
 
-    const hash = await bcrypt.hash(password, bcryptSaltRounds);
-    const userObj = {
-      email: email,
-      hashedPassword: hash
-    };
+//     const hash = await bcrypt.hash(password, bcryptSaltRounds);
+//     const userObj = {
+//       email: email,
+//       hashedPassword: hash
+//     };
 
-    let user = await User.create(userObj);
+//     let user = await User.create(userObj);
 
-    const token = crypto.randomBytes(16).toString('hex');
-    user.token = token;
-    await user.save();
+//     const token = crypto.randomBytes(16).toString('hex');
+//     user.token = token;
+//     await user.save();
 
-    // Send email - commented out for debugging
+//     // Send email - commented out for debugging
 
-    return res.status(201).json({ user: user });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ msg: "Internal server error" });
-  }
-});
+//     return res.status(201).json({ user: user });
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ msg: "Internal server error" });
+//   }
+// });
     
   
-  // SIGN IN
-  // SIGN IN
-  router.post('/login', async (req, res, next) => {
-    try {
-      const pw = req.body.credentials.password  
-      // find a user based on the email that was passed
-      let user = await User.findOne({ email: req.body.credentials.email })
+// SIGN IN
+router.post('/login', async (req, res, next) => {
+  try {
+    const pw = req.body.credentials.password  
+    // find a user based on the email that was passed
+    let user = await User.findOne({ email: req.body.credentials.email })
   
-      if (!user) {
-        res.status(200).json({ msg: 'email not found' })
+    if (!user) {
+      res.status(200).json({ msg: 'email not found' })
+    } else {
+      let correctPassword = await bcrypt.compare(pw, user.hashedPassword)
+      if (!correctPassword) {
+        res.status(200).json({ msg: 'incorrect password' })
       } else {
-        let correctPassword = await bcrypt.compare(pw, user.hashedPassword)
-        if (!correctPassword) {
-          res.status(200).json({ msg: 'incorrect password' })
-        } else {
-          const token = crypto.randomBytes(16).toString('hex')
-          user.token = token
-          await user.save()
-          res.status(201).json({ user: user })
-        }
+        const token = crypto.randomBytes(16).toString('hex')
+        user.token = token
+        await user.save()
+        res.status(201).json({ user: user })
       }
-    } catch(error) {
-      console.log(error)
     }
-  })
+  } catch(error) {
+    console.log(error)
+  }
+})
 
 
 // LOGOUT 
