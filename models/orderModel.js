@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const orderModel = new Schema({
-  name: {
+  customerName: {
     type: String,
     default: 'name'
   },
-  email: {
+  customerEmail: {
     type: String,
     default: 'email'
   },
@@ -22,7 +22,7 @@ const orderModel = new Schema({
     type: String,
     default: 'address' 
   },
-  apartment: {
+  unitNumber: {
     type: String,
     default: 'apartment' 
   },
@@ -34,17 +34,17 @@ const orderModel = new Schema({
     type: String,
     default: 'state' 
   },
-  zipcode: {
+  country: {
+    type: String,
+    default: 'country' 
+  },
+  zipCode: {
     type: String,
     default: 'zip code' 
   },
-  anonymous: {
-    type: Boolean,
-    default: true
-  },
-  sent: {
-    type: Boolean, 
-    default: false
+  isSent: {
+    type: String, 
+    default: 'not sent'
   }
 },{
   timestamps: true,

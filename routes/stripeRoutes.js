@@ -1,14 +1,18 @@
 const express = require('express');
 const Order = require('../models/orderModel');
 const passport = require('passport');
-const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_TEST);
+
 const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router();
 const dotenv = require("dotenv");
 dotenv.config();
 
-const YOUR_DOMAIN = process.env.YOUR_DOMAIN;
-const price_id= process.env.PRICE_ID;
+const domain = process.env.TEST_DOMAIN;
+const price_id = process.env.PRICE_ID_TEST;
+
+console.log("env price", price_id)
 // Add an endpoint on your server that creates a Checkout Session, setting the ui_mode to embedded.
 // The Checkout Session response includes a client secret, which the client uses to mount Checkout. Return the client_secret in your response.
 router.post('/create-checkout-session', async (req, res) => {
@@ -27,7 +31,7 @@ router.post('/create-checkout-session', async (req, res) => {
       ],
       metadata: req.body.sessionData,
       mode: 'payment',
-      return_url: `${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${domain}/return?session_id={CHECKOUT_SESSION_ID}`,
     });
   
     res.json({ clientSecret: session.client_secret });
@@ -50,7 +54,7 @@ router.get('/session-complete-webhook', async (req, res) => {
   const sig = req.headers['stripe-signature'];
 
   let event;
-  
+
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
