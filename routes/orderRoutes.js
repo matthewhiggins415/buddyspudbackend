@@ -29,7 +29,7 @@ router.get('/orders', requireToken, async (req, res, next) => {
 })
   
 // get an order
-router.get('/order/:id', requireToken, async (req, res, next) => {
+router.get('/orders/:id', requireToken, async (req, res, next) => {
   const id = req.params.id
   try {
     const order = await Order.findById(id);
@@ -41,19 +41,19 @@ router.get('/order/:id', requireToken, async (req, res, next) => {
 })
 
 // update an order as sent
-router.put('/order/sent/:id', requireToken, async (req, res, next) => {
-  const id = req.params.id;
+// router.put('/order/sent/:id', requireToken, async (req, res, next) => {
+//   const id = req.params.id;
   
-  try {
-    let order = await Order.findById(id);
-    order.isSent = true;
-    let updatedOrder = await order.save();
+//   try {
+//     let order = await Order.findById(id);
+//     order.isSent = true;
+//     let updatedOrder = await order.save();
   
-    res.status(201).json({ updatedOrder: updatedOrder })
-  } catch(e) {
-    res.json({ msg: 'something went wrong'})
-  }
-})
+//     res.status(201).json({ updatedOrder: updatedOrder })
+//   } catch(e) {
+//     res.json({ msg: 'something went wrong'})
+//   }
+// })
 
 // delete an order
 
