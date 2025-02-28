@@ -12,13 +12,13 @@ dotenv.config();
 const domain = process.env.TEST_DOMAIN;
 const price_id = process.env.PRICE_ID_TEST;
 
-console.log("env price", price_id)
+// console.log("env price", price_id)
 // Add an endpoint on your server that creates a Checkout Session, setting the ui_mode to embedded.
 // The Checkout Session response includes a client secret, which the client uses to mount Checkout. Return the client_secret in your response.
 router.post('/create-checkout-session', async (req, res) => {
   try {
-    console.log("body:", req.body.sessionData);
-    console.log("headers:", req.headers)
+    // console.log("body:", req.body.sessionData);
+    // console.log("headers:", req.headers)
       
     const session = await stripe.checkout.sessions.create({
       ui_mode: 'embedded',
@@ -36,7 +36,7 @@ router.post('/create-checkout-session', async (req, res) => {
   
     res.json({ clientSecret: session.client_secret });
   } catch (error) {
-    console.error('Stripe Checkout Error:', error);
+    // console.error('Stripe Checkout Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -58,7 +58,7 @@ router.get('/session-complete-webhook', async (req, res) => {
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
+    // console.error('Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
