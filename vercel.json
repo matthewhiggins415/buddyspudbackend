@@ -4,13 +4,15 @@
     "src": "server.js", 
     "use": "@vercel/node"
   }],
-  "routes": [{
-    "src": "/(.*)",
-    "dest": "server.js"
-  }],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server.js"
+    }
+  ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
@@ -23,6 +25,10 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
         }
       ]
     }
