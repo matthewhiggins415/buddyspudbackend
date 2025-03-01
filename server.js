@@ -35,14 +35,8 @@ connectDB();
 
 // app.use(cors());
 
-const corsOptions = {
-  origin: 'https://angrytaters.com', // Allow only your frontend domain
-  methods: 'GET,POST,PUT,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization',
-  credentials: true,
-};
+app.use(cors({ origin: ['https://angrytaters.com', 'http://localhost:3000'] }))
 
-app.use(cors(corsOptions));
 
 // Add this middleware to parse JSON request bodies
 app.use(express.json());
