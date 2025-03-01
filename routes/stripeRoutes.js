@@ -2,15 +2,15 @@ const express = require('express');
 const Order = require('../models/orderModel');
 const passport = require('passport');
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_TEST);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_LIVE);
 
 const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router();
 const dotenv = require("dotenv");
 dotenv.config();
 
-const domain = process.env.TEST_DOMAIN;
-const price_id = process.env.PRICE_ID_TEST;
+const domain = process.env.LIVE_DOMAIN;
+const price_id = process.env.PRICE_ID_LIVE;
 
 // console.log("env price", price_id)
 // Add an endpoint on your server that creates a Checkout Session, setting the ui_mode to embedded.
