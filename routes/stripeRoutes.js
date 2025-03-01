@@ -74,7 +74,7 @@ router.get('/session-complete-webhook', async (req, res) => {
           metadata: session.metadata, // Transfer metadata from checkout session
         });
 
-        console.log('Metadata transferred to Payment Intent:', session.metadata);
+        // console.log('Metadata transferred to Payment Intent:', session.metadata);
       } catch (error) {
         console.error('Error updating Payment Intent metadata:', error);
       }
