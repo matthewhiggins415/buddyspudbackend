@@ -129,8 +129,8 @@ router.post('/login', async (req, res, next) => {
         const token = crypto.randomBytes(16).toString('hex');
         user.token = token;
         await user.save();
-        res.status(201);
-        .set('Access-Control-Allow-Origin', 'https://angrytaters.com');
+        res.status(201)
+        .set('Access-Control-Allow-Origin', 'https://angrytaters.com')
         .json({ user: user });
       }
     }
