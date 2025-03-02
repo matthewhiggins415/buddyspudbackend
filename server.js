@@ -37,6 +37,13 @@ connectDB();
 
 app.use(cors({ origin: ['https://angrytaters.com', 'http://localhost:3000', 'https://stripe.com'] }))
 
+router.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://angrytaters.com');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 
 // Add this middleware to parse JSON request bodies
 app.use(express.json());
