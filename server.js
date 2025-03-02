@@ -35,7 +35,7 @@ connectDB();
 
 // app.use(cors());
 
-app.use(cors({ origin: ['https://angrytaters.com', 'http://localhost:3000'] }))
+app.use(cors({ origin: ['https://angrytaters.com', 'http://localhost:3000', 'https://stripe.com'] }))
 
 
 // Add this middleware to parse JSON request bodies
