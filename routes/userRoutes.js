@@ -120,24 +120,25 @@ router.post('/login', async (req, res, next) => {
     let user = await User.findOne({ email: req.body.credentials.email })
   
     if (!user) {
-      res.status(200).json({ msg: 'email not found' })
+      res.status(200).json({ msg: 'email not found' });
     } else {
-      let correctPassword = await bcrypt.compare(pw, user.hashedPassword)
+      let correctPassword = await bcrypt.compare(pw, user.hashedPassword);
       if (!correctPassword) {
-        res.status(200).json({ msg: 'incorrect password' })
+        res.status(200).json({ msg: 'incorrect password' });
       } else {
-        const token = crypto.randomBytes(16).toString('hex')
-        user.token = token
-        await user.save()
-        res.status(201).json({ user: user })
+        const token = crypto.randomBytes(16).toString('hex');
+        user.token = token;
+        await user.save();
+        res.status(201);
+        .set('Access-Control-Allow-Origin', 'https://angrytaters.com');
+        .json({ user: user });
       }
     }
   } catch(error) {
-    console.log(error)
-    res.status(401).json({ msg: "something went wrong" })
+    console.log(error);
+    res.status(401).json({ msg: "something went wrong" });
   }
-})
-
+});
 
 // LOGOUT 
 router.delete('/logout', requireToken, (req, res, next) => {
