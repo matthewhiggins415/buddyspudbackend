@@ -29,6 +29,22 @@ router.post('/create-checkout-session', async (req, res) => {
           quantity: 1,
         },
       ],
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: {
+              amount: 1600, // $16.00 in cents
+              currency: 'usd',
+            },
+            display_name: 'Standard Shipping',
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 3 },
+              maximum: { unit: 'business_day', value: 5 },
+            },
+          },
+        },
+      ],
       metadata: req.body.sessionData,
       mode: 'payment',
       return_url: `${domain}/return?session_id={CHECKOUT_SESSION_ID}`,
